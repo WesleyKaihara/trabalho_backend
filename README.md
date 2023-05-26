@@ -19,4 +19,5 @@ SECRET="SECRET"
 - [x] Bcrypt
 - [x] JsonWebToken
 - [x] Middleware
+- [x] Zod Schemas
 - [ ] ?
