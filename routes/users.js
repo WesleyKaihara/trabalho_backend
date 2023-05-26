@@ -1,7 +1,8 @@
 const express = require("express");
 const { getAllUsers, createUser, updateUser, deleteUser } = require('../service/userService');
 const router = express.Router();
-const auth = require("../middleware/auth")
+const auth = require("../middleware/auth");
+const { UserSchema } = require('../schemas/user');
 
 router.get("/users", auth, async(req,res) => {
 
@@ -18,11 +19,13 @@ router.get("/users", auth, async(req,res) => {
 router.post("/user", async(req,res) => {
   
   try {
-    const newUser = await createUser(req.body);
+    const userBody = UserSchema.parse(req.body);
+    
+    const newUser = await createUser(userBody);
     res.json(newUser);
-  } catch (error) {
+  } catch (err) {
     console.log("Unable to register user!!");
-    res.status(404).send();
+    res.status(404).json(err);
   }
 
 });
@@ -31,7 +34,9 @@ router.put("/user/:id", async(req,res) => {
   const userId = Number(req.params.id);
 
   try {
-    const updatedUser = await updateUser(userId,req.body);
+    const userBody = UserSchema.parse(req.body);
+
+    const updatedUser = await updateUser(userId, userBody);
     res.json(updatedUser);
   } catch (err) {
     console.log("Unable to update this user!!");
