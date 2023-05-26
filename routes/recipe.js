@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { getAllRecipesByUser, createRecipe, updateUserRecipe, deleteUserRecipe } = require('../service/recipeService');
 const auth = require("../middleware/auth");
+const { RecipeSchema } = require('../schemas/recipe');
 
 router.get("/recipes", auth, async(req,res) => {
   const userId = Number(req.user.id);
@@ -21,11 +22,12 @@ router.post("/recipe", auth, async(req,res) => {
   const userId = Number(req.user.id);
 
   try {
-    const newRecipe = await createRecipe(req.body, userId)
+    const recipeBody = RecipeSchema.parse(req.body);
+    const newRecipe = await createRecipe(recipeBody, userId)
     res.json(newRecipe)
   } catch (err) {
     console.log(err)
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ message: err });
   }
 
 });
@@ -35,7 +37,8 @@ router.put("/recipe/:id", auth, async(req,res) => {
   const userId = Number(req.user.id);
 
   try {
-    const updatedRecipe = await updateUserRecipe(id, req.body, userId);
+    const recipeBody = RecipeSchema.parse(req.body);
+    const updatedRecipe = await updateUserRecipe(id, recipeBody, userId);
     res.json(updatedRecipe)
   } catch (err) {
     console.log(err)
