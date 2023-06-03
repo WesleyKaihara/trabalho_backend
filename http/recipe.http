@@ -1,0 +1,28 @@
+GET http://localhost:3000/recipes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNjg1ODEwMTc0fQ.NkIySvi8MBENpBaRhuakMvTWUSr5BhvPr-ZBUH5u50U
+
+### 
+POST http://localhost:3000/recipe
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNjg1ODEwMTc0fQ.NkIySvi8MBENpBaRhuakMvTWUSr5BhvPr-ZBUH5u50U
+
+{
+  "name": "Coxinha",
+  "description": "",
+  "preparationTime": 1
+}
+
+### 
+PUT http://localhost:3000/recipe/12
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNjg1ODEwMTc0fQ.NkIySvi8MBENpBaRhuakMvTWUSr5BhvPr-ZBUH5u50U
+
+{
+  "name": "Bolo de Chocolate",
+  "description": "",
+  "preparationTime": 1.5
+}
+
+### 
+DELETE http://localhost:3000/recipe/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1fSwiaWF0IjoxNjg1MDcxOTk0fQ.q6SQGAizRdmHdSLuvB1S5dQdlBNvquf5VqaBwrGhyr4

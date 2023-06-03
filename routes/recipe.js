@@ -11,9 +11,9 @@ router.get("/recipes", auth, async(req,res) => {
   try {
     const recipes = await getAllRecipesByUser(userId);
     res.json({ recipes })
-  } catch (error) {
+  } catch (err) {
     console.log(err)
-    res.status(404).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 
 });
@@ -26,8 +26,12 @@ router.post("/recipe", auth, async(req,res) => {
     const newRecipe = await createRecipe(recipeBody, userId)
     res.json(newRecipe)
   } catch (err) {
-    console.log(err)
-    res.status(404).json({ message: err });
+    if (err instanceof z.ZodError) {
+      return res.status(422).json({
+        message: err.errors,
+      });
+    }
+    res.status(500).json({ message: err });
   }
 
 });
@@ -39,10 +43,14 @@ router.put("/recipe/:id", auth, async(req,res) => {
   try {
     const recipeBody = RecipeSchema.parse(req.body);
     const updatedRecipe = await updateUserRecipe(id, recipeBody, userId);
-    res.json(updatedRecipe)
+    res.json(updatedRecipe);
   } catch (err) {
-    console.log(err)
-    res.status(404).json({ message: err.message });
+    if (err instanceof z.ZodError) {
+      return res.status(422).json({
+        message: err.errors,
+      });
+    }
+    res.status(500).json({ message: err.message });
   }
 
 });
@@ -55,8 +63,7 @@ router.delete("/recipe/:id", auth, async(req,res) => {
     const deletedRecipe = await deleteUserRecipe(id, userId);
     res.send(deletedRecipe)
   } catch (err) {
-    console.log(err)
-    res.status(404).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 
 });

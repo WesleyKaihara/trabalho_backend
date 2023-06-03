@@ -3,7 +3,7 @@ const logger = require("./middleware/logger");
 const server = express();
 
 const recipesRouter = require('./routes/recipe');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
 
 server.use(express.json());

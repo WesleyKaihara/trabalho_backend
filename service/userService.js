@@ -7,18 +7,18 @@ const getAllUsers = () => {
 
 const getUserByEmail = (email) => {
   return prisma.user.findFirst({
-    where: { email }
-  })
+    where: { email },
+  });
 }
 
 const createUser = ({ name, email, password }) => {
-  const hashedPassword = bcrypt.hashSync(password, 10)
+  const hashedPassword = bcrypt.hashSync(password, 10);
 
   return prisma.user.create({
     data: {
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     }
   });
 }
@@ -31,14 +31,14 @@ const updateUser = (id, { name, email,password }) => {
     data: {
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     }
   });
 };
 
 const deleteUser = (id) => {
   return prisma.user.delete({
-    where: { id }
+    where: { id },
   })
 }
 
