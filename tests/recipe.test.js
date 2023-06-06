@@ -11,8 +11,8 @@ jest.mock("../db/prisma.js", () => ({
     findMany: jest.fn(),
     findUnique: jest.fn(),
     create: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
+    updateMany: jest.fn(),
+    deleteMany: jest.fn(),
   },
 }));
 
@@ -71,24 +71,17 @@ describe("Recipe tests", () => {
       preparationTime: 30,
     };
   
-    prisma.recipe.findUnique.mockResolvedValue({ userId: 123 });
-    prisma.recipe.update.mockResolvedValue(updatedRecipe);
+    prisma.recipe.updateMany.mockResolvedValue(updatedRecipe);
   
     const userId = 123;
     const result = await updateUserRecipe(recipeId, updatedRecipe, userId);
   
     delete updatedRecipe.id;
   
-    expect(result).toEqual(updatedRecipe);
-    expect(prisma.recipe.findUnique).toHaveBeenCalledTimes(1);
-    expect(prisma.recipe.findUnique).toHaveBeenCalledWith({
-      where: { id: recipeId },
-      select: { userId: true }
-    });
-  
-    expect(prisma.recipe.update).toHaveBeenCalledTimes(1);
-    expect(prisma.recipe.update).toHaveBeenCalledWith({
-      where: { id: recipeId },
+    expect(result).toEqual(updatedRecipe);  
+    expect(prisma.recipe.updateMany).toHaveBeenCalledTimes(1);
+    expect(prisma.recipe.updateMany).toHaveBeenCalledWith({
+      where: { id: recipeId, userId },
       data: updatedRecipe
     });
   });
@@ -97,22 +90,15 @@ describe("Recipe tests", () => {
     const recipeId = 1;
     const deletedRecipe = { id: recipeId, name: "Recipe" };
 
-    prisma.recipe.findUnique.mockResolvedValue({ userId: 123 });
-    prisma.recipe.delete.mockResolvedValue(deletedRecipe);
+    prisma.recipe.deleteMany.mockResolvedValue(deletedRecipe);
 
     const userId = 123;
     const result = await deleteUserRecipe(recipeId, userId);
 
     expect(result).toEqual(deletedRecipe);
-    expect(prisma.recipe.findUnique).toHaveBeenCalledTimes(1);
-    expect(prisma.recipe.findUnique).toHaveBeenCalledWith({
-      where: { id: recipeId },
-      select: { userId: true }
-    });
-
-    expect(prisma.recipe.delete).toHaveBeenCalledTimes(1);
-    expect(prisma.recipe.delete).toHaveBeenCalledWith({
-      where: { id: recipeId }
+    expect(prisma.recipe.deleteMany).toHaveBeenCalledTimes(1);
+    expect(prisma.recipe.deleteMany).toHaveBeenCalledWith({
+      where: { id: recipeId, userId }
     });
   });
   
