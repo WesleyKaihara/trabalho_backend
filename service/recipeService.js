@@ -20,16 +20,11 @@ const createRecipe = ({ name, description, preparationTime }, userId) => {
 const updateUserRecipe = async(recipeId, { name, description, preparationTime }, userId) => {
   const id = Number(recipeId);
 
-  const recipe = await prisma.recipe.findUnique({
-    where: { id },
-    select: { userId: true }
-  });
-
-  if (!recipe) throw new Error("Recipe Not Found");
-  if (recipe.userId !== userId) throw new Error("Not Authorized");
-
-  return prisma.recipe.update({
-    where: { id },
+  return prisma.recipe.updateMany({
+    where: { 
+      id,
+      userId
+    },
     data: { 
       name,
       description,
@@ -42,16 +37,8 @@ const updateUserRecipe = async(recipeId, { name, description, preparationTime },
 const deleteUserRecipe = async(recipeId, userId) => {
   const id = Number(recipeId);
 
-  const recipe = await prisma.recipe.findUnique({
-    where: { id },
-    select: { userId: true }
-  });
-
-  if (!recipe) throw new Error("Recipe Not Found");
-  if (recipe.userId !== userId) throw new Error("Not Authorized");
-
-  return prisma.recipe.delete({
-    where: { id }
+  return prisma.recipe.deleteMany({
+    where: { id, userId }
   });
 }
 
