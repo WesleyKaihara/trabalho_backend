@@ -19,6 +19,11 @@ const createUser = ({ name, email, password }) => {
       name,
       email,
       password: hashedPassword,
+    },
+    select: {
+      name: true,
+      email: true,
+      password: false,
     }
   });
 }
@@ -32,6 +37,11 @@ const updateUser = (id, { name, email,password }) => {
       name,
       email,
       password: hashedPassword,
+    },
+    select: {
+      name: true,
+      email: true,
+      password: false,
     }
   });
 };

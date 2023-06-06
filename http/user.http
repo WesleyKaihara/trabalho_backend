@@ -23,13 +23,13 @@ Content-Type: application/json
 }
 
 ### 
-PUT http://localhost:3000/user/1
+PUT http://localhost:3000/user/2
 Content-Type: application/json
 
 {
-  "name": "teste",
+  "name": "nometeste",
   "email": "teste@email.com",
-  "password": "teste"
+  "password": "SenhaTeste123$"
 }
 
 ### 
