@@ -60,21 +60,22 @@ describe("User tests", () => {
 
   it("should be created a new user successfully", async () => {
 
-    prisma.user.create.mockResolvedValue({ 
-      id: 1, 
-      name: "User", 
-      email: "user@email.com", 
-      password: "password123$"
+    prisma.user.create.mockResolvedValue({
+      name: "teste",
+      email: "teste@email.com"
     });
 
-    const result = await createUser({ 
-      name: "User", 
-      email: "user@email.com", 
-      password: "password123$"
-    });
+    const response = await request(server)
+      .post('/user')
+      .send({
+        name: "teste",
+        email: "teste@email.com",
+        password: "Password123$"
+      });
 
-    expect(result.name).toBe("User", );
-    expect(result.email).toBe("user@email.com", );
+    expect(response.body.name).toBe("teste");
+    expect(response.body.email).toBe("teste@email.com");
+    expect(response.body.password).toBeUndefined();
   });
 
   it("should be updating user successfully", async () => {
@@ -111,7 +112,7 @@ describe("User tests", () => {
     expect(result.email).toBe("user@email.com");
   });
 
-  it("should return 401 when login is invalid", async() => {
+  it("should be return http status 401 when login is invalid", async() => {
     const response = await request(server)
       .post("/login")
       .send({
@@ -119,9 +120,10 @@ describe("User tests", () => {
         "password": "password123$"
       })
     expect(response.statusCode).toBe(401)
+    expect(response.body.message).toBe("Not Authorized")
   });
 
-  test('should return 200 when login is valid', async () => { 
+  it('should be return http status 200 when login is valid', async () => { 
     prisma.user.findFirst.mockResolvedValue({ 
       id: 1, 
       name: "teste",
@@ -138,6 +140,7 @@ describe("User tests", () => {
       });
 
       expect(response.statusCode).toBe(200)
+      expect(response.body).toHaveProperty("token")
    });
 
 });
