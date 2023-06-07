@@ -2,24 +2,22 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "name": "teste3",
   "email": "teste3@email.com",
   "password": "SenhaTeste123$"
 }
 
 ###
 GET http://localhost:3000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyfSwiaWF0IjoxNjg1MDY4MTk4fQ.UrI8AwmOXcI4nzMTUS_jniNWXIMs7zcIVEYJsGgeDJI
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxfSwiaWF0IjoxNjg2MTQxNTIyfQ.zdzl4YSaoz-R0mdx4kGnVi1T3IqOGmUMmKhpG9jCoGE
 
 ### 
 POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "name": "teste3",
-  "email": "teste3@email.com",
-  "password": "SenhaTeste123$"
+  "name": "teste",
+  "email": "teste@email.com",
+  "password": "Password123$"
 }
 
 ### 
@@ -33,4 +31,4 @@ Content-Type: application/json
 }
 
 ### 
-DELETE http://localhost:3000/user/1
+DELETE http://localhost:3000/user/2

@@ -7,6 +7,9 @@ const {
 } = require("../service/userService");
 const prisma = require("../db/prisma.js");
 
+const request = require("supertest");
+const server = require("../server");
+
 jest.mock("../db/prisma.js", () => ({
   user: {
     findMany: jest.fn(),
@@ -107,4 +110,34 @@ describe("User tests", () => {
     expect(result.name).toBe("User");
     expect(result.email).toBe("user@email.com");
   });
+
+  it("should return 401 when login is invalid", async() => {
+    const response = await request(server)
+      .post("/login")
+      .send({
+        "email": "user@email.com",
+        "password": "password123$"
+      })
+    expect(response.statusCode).toBe(401)
+  });
+
+  test('should return 200 when login is valid', async () => { 
+    prisma.user.findFirst.mockResolvedValue({ 
+      id: 1, 
+      name: "teste",
+      email: "teste@email.com", 
+      password: "$2b$10$IHbelqK6sWbASKk4.ZSCnO98/nZfouRW4cxC8gzYqPFubhJDMom96" 
+    });
+    process.env.SECRET="SECRET_TEST";
+
+    const response = await request(server)
+      .post('/login')
+      .send({
+        email: "teste@email.com",
+        password: "Password123$"
+      });
+
+      expect(response.statusCode).toBe(200)
+   });
+
 });

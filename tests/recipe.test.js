@@ -23,8 +23,24 @@ describe("Recipe tests", () => {
 
   it("should be return all recipes by user successfully", async () => {
     const mockedRecipes = [
-      { id: 1, name: "Recipe01" },
-      { id: 2, name: "Recipe01" },
+      {
+        "name": "recipe01",
+        "description": "recipe01 description",
+        "preparationTime": 1.5,
+        "user": {
+          "name": "user01",
+          "email": "user01@email.com"
+        }
+      },
+      {
+        "name": "recipe02",
+        "description": "recipe02 description",
+        "preparationTime": 2.5,
+        "user": {
+          "name": "user02",
+          "email": "user02@email.com"
+        }
+      },
     ];
 
     prisma.recipe.findMany.mockResolvedValue(mockedRecipes);
@@ -35,7 +51,18 @@ describe("Recipe tests", () => {
     expect(result).toEqual(mockedRecipes);
     expect(prisma.recipe.findMany).toHaveBeenCalledTimes(1);
     expect(prisma.recipe.findMany).toHaveBeenCalledWith({
-      where: { userId }
+      where: { userId },
+      select: {
+        name: true,
+        description: true,
+        preparationTime: true,
+        user: {
+          select: {
+            name: true,
+            email: true
+          }
+        }
+      }
     });
   });
 

@@ -2,7 +2,18 @@ const prisma = require("../db/prisma");
 
 const getAllRecipesByUser = (userId) => {
   return prisma.recipe.findMany({
-    where: { userId }
+    where: { userId },
+    select: {
+      name: true,
+      description: true,
+      preparationTime: true,
+      user: {
+        select: {
+          name: true,
+          email: true
+        }
+      }
+    }
   });
 }
 
