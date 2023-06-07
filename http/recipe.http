@@ -1,10 +1,10 @@
 GET http://localhost:3000/recipes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxfSwiaWF0IjoxNjg2MTQxNTIyfQ.zdzl4YSaoz-R0mdx4kGnVi1T3IqOGmUMmKhpG9jCoGE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNjg2MTY4NTM3fQ.EABznf1Ig6WZDO4qqIlJpkTuPdLqpxR1WveNXfTbE1U
 
 ### 
 POST http://localhost:3000/recipe
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxfSwiaWF0IjoxNjg2MTQxNTIyfQ.zdzl4YSaoz-R0mdx4kGnVi1T3IqOGmUMmKhpG9jCoGE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNjg2MTY4NTM3fQ.EABznf1Ig6WZDO4qqIlJpkTuPdLqpxR1WveNXfTbE1U
 
 {
   "name": "Coxinha",
@@ -13,9 +13,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxf
 }
 
 ### 
-PUT http://localhost:3000/recipe/12
+PUT http://localhost:3000/recipe/5
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNjg1ODEwMTc0fQ.NkIySvi8MBENpBaRhuakMvTWUSr5BhvPr-ZBUH5u50U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNjg2MTY4NTM3fQ.EABznf1Ig6WZDO4qqIlJpkTuPdLqpxR1WveNXfTbE1U
 
 {
   "name": "Bolo de Chocolate atualizado",
@@ -24,5 +24,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2f
 }
 
 ### 
-DELETE http://localhost:3000/recipe/12
+DELETE http://localhost:3000/recipe/5
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNjg1ODEwMTc0fQ.NkIySvi8MBENpBaRhuakMvTWUSr5BhvPr-ZBUH5u50U

@@ -11,8 +11,8 @@ jest.mock("../db/prisma.js", () => ({
     findMany: jest.fn(),
     findUnique: jest.fn(),
     create: jest.fn(),
-    updateMany: jest.fn(),
-    deleteMany: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
   },
 }));
 
@@ -98,7 +98,7 @@ describe("Recipe tests", () => {
       preparationTime: 30,
     };
   
-    prisma.recipe.updateMany.mockResolvedValue(updatedRecipe);
+    prisma.recipe.update.mockResolvedValue(updatedRecipe);
   
     const userId = 123;
     const result = await updateUserRecipe(recipeId, updatedRecipe, userId);
@@ -106,9 +106,9 @@ describe("Recipe tests", () => {
     delete updatedRecipe.id;
   
     expect(result).toEqual(updatedRecipe);  
-    expect(prisma.recipe.updateMany).toHaveBeenCalledTimes(1);
-    expect(prisma.recipe.updateMany).toHaveBeenCalledWith({
-      where: { id: recipeId, userId },
+    expect(prisma.recipe.update).toHaveBeenCalledTimes(1);
+    expect(prisma.recipe.update).toHaveBeenCalledWith({
+      where: { id: recipeId },
       data: updatedRecipe
     });
   });
@@ -117,15 +117,15 @@ describe("Recipe tests", () => {
     const recipeId = 1;
     const deletedRecipe = { id: recipeId, name: "Recipe" };
 
-    prisma.recipe.deleteMany.mockResolvedValue(deletedRecipe);
+    prisma.recipe.delete.mockResolvedValue(deletedRecipe);
 
     const userId = 123;
     const result = await deleteUserRecipe(recipeId, userId);
 
     expect(result).toEqual(deletedRecipe);
-    expect(prisma.recipe.deleteMany).toHaveBeenCalledTimes(1);
-    expect(prisma.recipe.deleteMany).toHaveBeenCalledWith({
-      where: { id: recipeId, userId }
+    expect(prisma.recipe.delete).toHaveBeenCalledTimes(1);
+    expect(prisma.recipe.delete).toHaveBeenCalledWith({
+      where: { id: recipeId }
     });
   });
   

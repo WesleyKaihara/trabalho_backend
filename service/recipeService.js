@@ -17,6 +17,12 @@ const getAllRecipesByUser = (userId) => {
   });
 }
 
+const getRecipeById = (id) => {
+  return prisma.recipe.findFirst({
+    where: { id }
+  });
+};
+
 const createRecipe = ({ name, description, preparationTime }, userId) => {
   return prisma.recipe.create({
     data: {
@@ -28,13 +34,12 @@ const createRecipe = ({ name, description, preparationTime }, userId) => {
   });
 }
 
-const updateUserRecipe = async(recipeId, { name, description, preparationTime }, userId) => {
+const updateUserRecipe = async(recipeId, { name, description, preparationTime }) => {
   const id = Number(recipeId);
 
-  return prisma.recipe.updateMany({
+  return prisma.recipe.update({
     where: { 
-      id,
-      userId
+      id
     },
     data: { 
       name,
@@ -48,13 +53,14 @@ const updateUserRecipe = async(recipeId, { name, description, preparationTime },
 const deleteUserRecipe = async(recipeId, userId) => {
   const id = Number(recipeId);
 
-  return prisma.recipe.deleteMany({
-    where: { id, userId }
+  return prisma.recipe.delete({
+    where: { id }
   });
 }
 
 module.exports = {
   getAllRecipesByUser,
+  getRecipeById,
   createRecipe,
   updateUserRecipe,
   deleteUserRecipe,

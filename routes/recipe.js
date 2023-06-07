@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getAllRecipesByUser, createRecipe, updateUserRecipe, deleteUserRecipe } = require('../service/recipeService');
+const { getAllRecipesByUser, createRecipe, updateUserRecipe, deleteUserRecipe, getRecipeById } = require('../service/recipeService');
 const auth = require("../middleware/auth");
 const { RecipeSchema } = require('../schemas/recipe');
 const z = require("zod");
@@ -42,8 +42,12 @@ router.put("/recipe/:id", auth, async(req,res) => {
   const userId = Number(req.user.id);
 
   try {
+    const recipe = await getRecipeById(id);
+    if(!recipe) return res.status(404).json({ message: "Recipe not found!!"});
+    if(recipe.userId !== userId) return res.status(401).json({ message: "Not Authorized!!"});
+    
     const recipeBody = RecipeSchema.parse(req.body);
-    const updatedRecipe = await updateUserRecipe(id, recipeBody, userId);
+    const updatedRecipe = await updateUserRecipe(id, recipeBody);
     res.json(updatedRecipe);
   } catch (err) {
     if (err instanceof z.ZodError) {
@@ -61,7 +65,11 @@ router.delete("/recipe/:id", auth, async(req,res) => {
   const userId = Number(req.user.id);
   
   try {
-    const deletedRecipe = await deleteUserRecipe(id, userId);
+    const recipe = await getRecipeById(id);
+    if(!recipe) return res.status(404).json({ message: "Recipe not found!!"});
+    if(recipe.userId !== userId) return res.status(401).json({ message: "Not Authorized!!"});
+
+    const deletedRecipe = await deleteUserRecipe(id);
     res.send(deletedRecipe)
   } catch (err) {
     res.status(400).json({ message: err.message });
